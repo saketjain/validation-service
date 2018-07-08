@@ -4,8 +4,7 @@ import cors from "cors";
 import logger from './core/logger/app-logger'
 import morgan from 'morgan'
 import config from './core/config/config.dev'
-import cars from './routes/cars.route'
-import connectToDb from './db/connect'
+import validation from './routes/validation.route'
 
 const port = config.serverPort;
 logger.stream = {
@@ -14,15 +13,13 @@ logger.stream = {
     }
 };
 
-connectToDb();
-
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(morgan("dev", { "stream": logger.stream }));
 
-app.use('/cars', cars);
+app.use('/validation', validation);
 
 //Index route
 app.get('/', (req, res) => {
