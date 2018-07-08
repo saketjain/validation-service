@@ -6,7 +6,7 @@ const controller = {};
 function exec(validationInput) {
     return validations
     .get(validationInput.fnName)
-    .apply(null, validationInput.arg)
+    .apply(null, validationInput.args)
     .then((resp) => {
         if(resp === true){
            return {
@@ -25,7 +25,7 @@ function exec(validationInput) {
 controller.validate = async (req, res) => {
     try {
         console.log(req.body);
-        const promises = req.body.validationList.map(i => exec(i));
+        const promises = req.body.map(i => exec(i));
         const response = await Promise.all(promises);
         logger.info('validating all...');
         res.send(response);
